@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
 namespace PMySql
@@ -7,52 +8,79 @@ namespace PMySql
 	{
 		public static void Main (string[] args)
 		{
-			MySqlConnection mySqlConnection = new MySqlConnection(
-				//Cadena de conexión//
+			MySqlConnection mySqlConnection = new MySqlConnection (
 				"Database=dbprueba;Data Source=localhost;User Id=root;Password=sistemas"
 				);
-			//Abrimos la conexión para poder realizar los cambios que queremos
 			mySqlConnection.Open ();
-			//Creamos un comando con funciones de mysql
-			MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-			mySqlCommand.CommandText = "select * from articulo";
-			//Creamos el Reader para que lee el comando
-			MySqlDataReader mysqlDR= mySqlCommand.ExecuteReader();
-			//Cerramos tanto el reader como la conexión
-			showColumnNames (mysqlDR);
-			Console.WriteLine (" ");
-			show(mysqlDR);
-			mysqlDR.Close ();
-			mySqlConnection.Close ();
-			}
-			private static void showColumnNames (MySqlDataReader mysqlDR){
-			for (int i = 0; i < mysqlDR.FieldCount; i++) {
-				Console.WriteLine ("Columna {0} {1}", i, mysqlDR.GetName (i));
-				//console.writeline("showColumnNames...");
-				//string [] columnNames = getColumnNames(mysqlDR);
-				//foreach (string columnName in columnNames)
-					//Console.WriteLine("columna=" + columnName
-			}
-			}
-		//public static string[] getColumnNames (MySqlDataReader myslDR){
-		//int count = myslDR.FieldCount;
-		//string[] columNames = new string[count];
-		//for (int index = 0; index < mysqlDR.FieldCount; index++)
-		// ColumnNames [index] = mysqlDR.GetName(index);
-		// return columnNames;
-	
-		private static void show (MySqlDataReader mysqlDR){
-			while (mysqlDR.Read()) {
-				for (int i=0; i<mysqlDR.FieldCount; i++) {
-					Console.Write ("{0} {1}  ", mysqlDR.GetName (i), mysqlDR [mysqlDR.GetName (i)]);
-				}
-				Console.WriteLine (" ");
-			}
-			}
-		
-	}
 
-}
+			updateDatabase (mySqlConnection);
+
+			MySqlCommand mySqlCommand = mySqlConnection.CreateCommand ();
+			mySqlCommand.CommandText = "select * from articulo";
+			//				"select " +
+			//				"a.categoria as articulocategoria, " +
+			//				"c.nombre as categorianombre, " +
+			//				"count(*) as numeroarticulos " +
+			//				"from articulo a " +
+			//				"left join categoria c " +
+			//				"on a.categoria = c.id " +
+			//				"group by articulocategoria, categorianombre";
+
+			MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader ();
+
+			showColumnNames (mySqlDataReader);
+			show (mySqlDataReader);
+
+			mySqlDataReader.Close ();
+
+			mySqlConnection.Close ();
+		}
+
+		private static void updateDatabase(MySqlConnection mySqlConnection) {
+			MySqlCommand mySqlCommand = mySqlConnection.CreateCommand ();
+			mySqlCommand.CommandText = "insert into articulo (nombre, categoria) values ('artículo nuevo', 1)";
+			mySqlCommand.ExecuteNonQuery ();
+		}
+
+		private static void showColumnNames(MySqlDataReader mySqlDataReader) {
+			Console.WriteLine ("showColumnNames...");
+			string[] columnNames = getColumnNames (mySqlDataReader);
+			Console.WriteLine (string.Join (", ", columnNames));
+
+		}
+
+		public static string[] getColumnNames(MySqlDataReader mySqlDataReader) {
+			//			int count = mySqlDataReader.FieldCount;
+			//			string[] columnNames = new string[count];
+			//			for (int index = 0; index < count; index++) 
+			//				columnNames [index] = mySqlDataReader.GetName (index);
+			//			return columnNames;
+
+			int count = mySqlDataReader.FieldCount;
+			List<string> columnNames = new List<string> ();
+			for (int index = 0; index < count; index++)
+				columnNames.Add (mySqlDataReader.GetName (index));
+			return columnNames.ToArray();
+		}
+
+		private static void show(MySqlDataReader mySqlDataReader) {
+			Console.WriteLine ("show...");
+			while (mySqlDataReader.Read()) 
+				showRow (mySqlDataReader);
+
+		}
+
+		private static void showRow(MySqlDataReader mySqlDataReader) {
+			int count = mySqlDataReader.FieldCount;
+			string line = "";
+			for (int index = 0; index < count; index++)
+				line = line + mySqlDataReader [index] + " ";
+
+			Console.WriteLine (line);
+		}
+	}
+}		
+		
 
 
 
