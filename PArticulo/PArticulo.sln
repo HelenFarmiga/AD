@@ -15,6 +15,7 @@ Global
 		{3978AF96-6A62-4BBE-8ADA-EB789BAF593C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
+		BaseDirectory = ..\AD
 		StartupItem = PArticulo\PArticulo.csproj
 	EndGlobalSection
 EndGlobal

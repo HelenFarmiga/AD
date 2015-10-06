@@ -82,7 +82,86 @@ namespace PMySql
 }		
 		
 
+/*
+                
+ColumnTotal = treeview.Columns.Length; 
+for (Index = 0; Index < ColumnTotal; Index++)  //remove existing columns 
+{ 
+Console.WriteLine("disposed: Column " + treeview.Columns[0].Title); 
 
+treeview.Columns[0].Dispose(); 
+treeview.Columns[0] = null; 
+treeview.RemoveColumn(treeview.Columns[0]); 
+} 
+                
+if (store != null) 
+{ 
+store.Dispose(); 
+store = null; 
+                        
+Console.WriteLine("disposed: store"); 
+}	
+
+
+TreeViewColumn tvcol = new TreeViewColumn();   
+CellRendererText tcellr = new CellRendererText(); 
+tcellr.BackgroundGdk =  new Gdk.Color(220,220,220); 
+tvcol.Title = "";	
+tvcol.PackStart(tcellr, true); 
+tvcol.AddAttribute(tcellr, "text", 0); 
+treeview.AppendColumn(tvcol); 
+                        
+for (Index = 0; Index < reader.FieldCount; Index++) //iterate through 
+each field of the database 
+{ 
+FieldName = reader.GetName(Index); //get the query results field names 
+defined under strSQL 
+                                
+TreeViewColumn col = new TreeViewColumn();  // add columns for each 
+field 
+CellRendererText colr = new CellRendererText(); 
+colr.Editable = true; //Make every single Cell editable 
+colr.Edited += CellEdit; 
+                                
+col.Title = FieldName;  //title the column with the field names 
+retrieved by the query 
+col.PackStart(colr, true); 
+col.AddAttribute(colr, "text", Index+1); 
+treeview.AppendColumn(col); //Add the Column to the Treeview 
+} 
+                        
+//create array of strings one for each column 
+System.Type[] Fields = new System.Type[treeview.Columns.Length]; 
+
+for (Index = 0; Index < treeview.Columns.Length; Index++) 
+{ 
+Fields[Index] = typeof(string); //set each type to string 
+} 
+                        
+//The ListStore is a columned list data structure to be used with 
+TreeView widget. 
+store = new ListStore(Fields);  //initialise store with columns 
+treeview.Model = store; //setup treeview with store 
+//The TreeIter is the primary structure for accessing a tree row 
+TreeIter iter = new TreeIter(); 
+//add the data from the query to the treeview 
+string[] FieldArray = new string[treeview.Columns.Length]; 
+int RowCount = 0; 
+while(reader.Read()) //read through reach row in result set returned by 
+the query 
+{ 
+RowCount += 1; 
+FieldArray[0] = RowCount.ToString(); //first column displays the row 
+count 
+                                
+for (Index = 1; Index < treeview.Columns.Length; Index++) 
+{ 
+FieldArray[Index] = reader.GetString(Index-1); //get the data from the 
+result set 
+FieldArray[Index] = FieldArray[Index].Trim(); 
+                                }	
+iter = store.AppendValues(FieldArray); //add row to treeview 
+} 
 
 
 
