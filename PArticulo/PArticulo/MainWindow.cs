@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 using Gtk;
-
+using System.Collections;
 using PArticulo;
 
 public partial class MainWindow: Gtk.Window
@@ -21,16 +21,24 @@ public partial class MainWindow: Gtk.Window
 
 		//Así introducimos los índices de todas las columnas
 		string[] columnNames = getColumnNames (dataReader);
-		for(int index=0; index<columnNames.Length; index ++)
-			treeView.AppendColumn (columnNames [index], new CellRendererText (), "text", index);
+		CellRendererText cellRendererText = new CellRendererText ();
+		for(int index=0; index<columnNames.Length; index ++){
+			//treeView.AppendColumn (columnNames [index], new CellRendererText (), "text", index);
+			int column = index;
+			treeView.AppendColumn (columnNames [index], cellRendererText, 
+				delegate(TreeViewColumn tree_column, CellRenderer cell, TreeModel tree_model, TreeIter iter){
+				IList row = (IList)tree_model.GetValue(iter, 0);
+				cellRendererText.Text = row[column].ToString();
+			});
+		}
 
 		//ListStore listStore = new ListStore (typeof(String), typeof(String));
-		Type[] types= getTypes (dataReader.FieldCount);
-		ListStore listStore = new ListStore (types);
+		//Type[] types= getTypes (dataReader.FieldCount);
+		ListStore listStore = new ListStore (typeof(IList));
 
 		while (dataReader.Read()) {
 			//listStore.AppendValues (mySqlDataReader [0].ToString (), mySqlDataReader [1].ToString ());
-			string[] values = getValues (dataReader);
+			IList values = getValues (dataReader);
 			listStore.AppendValues (values);
 		}
 
@@ -58,12 +66,12 @@ public partial class MainWindow: Gtk.Window
 			types.Add (typeof(string));
 		return types.ToArray ();
 	}
-	private string [] getValues (IDataReader dataReader){
+	private IList getValues (IDataReader dataReader){
 		int count =  dataReader.FieldCount;
-		List <String> values = new List <string> ();
+		List <object> values = new List <object> ();
 		for (int i=0; i< count; i++)
-			values.Add ( dataReader [i].ToString ());
-		return values.ToArray ();
+			values.Add ( dataReader [i]);
+		return values;
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a){
