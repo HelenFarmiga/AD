@@ -9,17 +9,19 @@ namespace PArticulo
 	{
 
 		public static QueryResult Get(string selectText) {
-			//IDbConnection dbConnection = App.Instance.DbConnection;
-			//IDbCommand dbCommand = dbConnection.CreateCommand ();
-			//dbCommand.CommandText = selectText; 
-			//TODO completar
+			IDbConnection dbConnection = App.Instance.DbConnection;
+			IDbCommand dbCommand = dbConnection.CreateCommand ();
+			dbCommand.CommandText = selectText; 
+			IDataReader dataReader = dbCommand.ExecuteReader ();
 			QueryResult queryResult = new QueryResult ();
-			queryResult.ColumnNames = new string[] { "Columna 1", "Columna 2" };
+			queryResult.ColumnNames = getColumnNames (dataReader);
 			List<IList> rows = new List<IList> ();
-			rows.Add (new object[] { 1, "art. uno" });
-			rows.Add (new object[] { 2, "art. dos" });
-
+			while (dataReader.Read()) {
+				IList row = getRow (dataReader);
+				rows.Add (row);
+			}
 			queryResult.Rows = rows;
+			dataReader.Close ();
 			return queryResult;
 		}
 
