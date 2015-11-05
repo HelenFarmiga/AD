@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE8AB640-A184-4E20-A802-826E61E8F56F}</ProjectGuid>
+    <ProjectGuid>{36DF1B45-970D-40E6-98BC-8C9364030E2D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>PHolaMundo</RootNamespace>
     <AssemblyName>PHolaMundo</AssemblyName>

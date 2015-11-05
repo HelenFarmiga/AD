@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHolaMundo", "PHolaMundo\PHolaMundo.csproj", "{EE8AB640-A184-4E20-A802-826E61E8F56F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PHolaMundo", "PHolaMundo\PHolaMundo.csproj", "{36DF1B45-970D-40E6-98BC-8C9364030E2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE8AB640-A184-4E20-A802-826E61E8F56F}.Debug|x86.ActiveCfg = Debug|x86
-		{EE8AB640-A184-4E20-A802-826E61E8F56F}.Debug|x86.Build.0 = Debug|x86
-		{EE8AB640-A184-4E20-A802-826E61E8F56F}.Release|x86.ActiveCfg = Release|x86
-		{EE8AB640-A184-4E20-A802-826E61E8F56F}.Release|x86.Build.0 = Release|x86
+		{36DF1B45-970D-40E6-98BC-8C9364030E2D}.Debug|x86.ActiveCfg = Debug|x86
+		{36DF1B45-970D-40E6-98BC-8C9364030E2D}.Debug|x86.Build.0 = Debug|x86
+		{36DF1B45-970D-40E6-98BC-8C9364030E2D}.Release|x86.ActiveCfg = Release|x86
+		{36DF1B45-970D-40E6-98BC-8C9364030E2D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = PHolaMundo\PHolaMundo.csproj

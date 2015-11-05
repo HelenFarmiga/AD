@@ -1,10 +1,10 @@
-using System;
 using Gtk;
 using MySql.Data.MySqlClient;
+using System;
 
 using SerpisAd;
 
-namespace PArticulo
+namespace PCategoria
 {
 	class MainClass
 	{
@@ -12,7 +12,7 @@ namespace PArticulo
 		{
 			App.Instance.DbConnection = new MySqlConnection (
 				"Database=dbprueba;Data Source=localhost;User Id=root;Password=sistemas"
-			);
+				);
 			App.Instance.DbConnection.Open ();
 
 			Application.Init ();
