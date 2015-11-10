@@ -20,7 +20,8 @@ namespace PCategoria
 				dbCommand.CommandText = "insert into categoria (nombre) values (@nombre)";
 				string nombre = entry1.Text;
 				DbCommandHelper.AddParameter (dbCommand, "nombre", nombre);
-				dbCommand.ExecuteNonQuery ();
+				dbCommand.ExecuteNonQuery();
+				Destroy ();
 			}
 	}
 
