@@ -17,6 +17,11 @@ public partial class MainWindow: Gtk.Window
 			new CategoriaView();
 		};
 		refreshAction.Activated += delegate {
+			//Creamos un array que contenga las columnas
+			TreeViewColumn [] columnas = treeview1.Columns;
+			//Recorremos las columnas
+			for (int i=0; i<columnas.Length; i++)
+				treeview1.RemoveColumn (columnas[i]);
 			QueryResult queryresult = PersisterHelper.Get("select * from categoria");
 			TreeViewHelper.Fill (treeview1, queryresult);
 		};
