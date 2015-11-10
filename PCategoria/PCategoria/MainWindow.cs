@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-using PSerpisAd;
+using SerpisAd;
 using PCategoria;
 
 public partial class MainWindow: Gtk.Window
@@ -11,18 +11,17 @@ public partial class MainWindow: Gtk.Window
 		Build ();
 		Console.WriteLine ("MainWindow ctor.");
 		QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
-		TreeViewHelper.Fill (treeView, queryResult);
+		TreeViewHelper.Fill (treeview1, queryResult);
 
 		newAction.Activated += delegate {
-			new ArticuloView();
+			new CategoriaView();
 		};
-		//newAction.Activated += newActionActivated;
+		refreshAction.Activated += delegate {
+			QueryResult queryresult = PersisterHelper.Get("select * from categoria");
+			TreeViewHelper.Fill (treeview1, queryresult);
+		};
 	}
-
-	//	void newActionActivated (object sender, EventArgs e)
-	//	{
-	//		new ArticuloView ();
-	//	}
+	
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
@@ -30,5 +29,9 @@ public partial class MainWindow: Gtk.Window
 		a.RetVal = true;
 	}
 
+
+
 }
+
+
 
