@@ -1,5 +1,6 @@
 using System;
 using Gtk;
+using System.Collections;
 
 using SerpisAd;
 using PCategoria;
@@ -24,6 +25,22 @@ public partial class MainWindow: Gtk.Window
 				treeview1.RemoveColumn (columnas[i]);
 			QueryResult queryresult = PersisterHelper.Get("select * from categoria");
 			TreeViewHelper.Fill (treeview1, queryresult);
+		};
+		deleteAction.Activated += delegate {
+		TreeIter treeIter;
+		treeView.Selection.GetSelected (out treeIter);
+		IList row =(IList)treeView.Model.GetValue(treeIter,0);
+
+		string deleteSql = string.Format("delete from categoria where id={0}", id);
+		Console.WriteLine ("deleteSql={0}", deleteSql);
+
+
+
+		IDbCommand dbCommand = dbConnection.CreateCommand ();
+		dbCommand.CommandText = deleteSql;
+
+		dbCommand.ExecuteNonQuery ();
+		Destroy();
 		};
 	}
 	
