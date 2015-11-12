@@ -7,10 +7,8 @@ namespace SerpisAd
 	public class TreeViewHelper
 	{
 		public static void Fill(TreeView treeView, QueryResult queryResult) {
-			TreeViewColumn[] treeViewColumns = treeView.Columns;
-			foreach (TreeViewColumn treeViewColumn in treeViewColumns)
-				treeView.RemoveColumn(treeViewColumn);
-			string [] columnNames = queryResult.ColumnNames;
+			removeAllColumns (treeView);
+			string[] columnNames = queryResult.ColumnNames;
 			CellRendererText cellRendererText = new CellRendererText ();
 			for (int index = 0; index < columnNames.Length; index++) {
 				int column = index;
@@ -25,20 +23,26 @@ namespace SerpisAd
 				listStore.AppendValues (row);
 			treeView.Model = listStore;
 		}
-		public static object GetId(TreeView treeView){
+
+		private static void removeAllColumns(TreeView treeView) {
+			TreeViewColumn[] treeViewColumns = treeView.Columns;
+			foreach (TreeViewColumn treeViewColumn in treeViewColumns)
+				treeView.RemoveColumn(treeViewColumn);        
+		}
+
+		public static object GetId(TreeView treeView) {
 			TreeIter treeIter;
-			if(!treeView.Selection.GetSelected (out treeIter))
+			if (!treeView.Selection.GetSelected (out treeIter))
 				return null;
-			IList row =(IList)treeView.Model.GetValue(treeIter,0);
+			IList row = (IList)treeView.Model.GetValue(treeIter, 0);
 			return row[0];
 		}
-		public static bool IsSelected(TreeView treeView){
+
+		public static bool IsSelected(TreeView treeView) {
 			TreeIter treeIter;
 			return treeView.Selection.GetSelected (out treeIter);
-			// La otra alternativa sería
-			//return treeView.Selection.CountSelectedRows() !=0;
-
-
+			//o bien
+			//return treeView.Selection.CountSelectedRows() != 0; 
 		}
 	}
 }

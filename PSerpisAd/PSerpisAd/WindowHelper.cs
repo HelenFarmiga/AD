@@ -1,13 +1,23 @@
+using Gtk;
 using System;
 
-namespace PSerpisAd
+namespace SerpisAd
 {
-	public partial class WindowHelper : Gtk.ActionGroup
+	public class WindowHelper
 	{
-		public WindowHelper () : 
-				base("PSerpisAd.WindowHelper")
-		{
-			this.Build ();
+		public static bool ConfirmDelete(Window window) {
+			//TODO localización del ¿Quieres eliminar...
+			MessageDialog messageDialog = new MessageDialog (
+				window,
+				DialogFlags.DestroyWithParent,
+				MessageType.Question,
+				ButtonsType.YesNo,
+				"¿Quieres eliminar el elemento seleccionado?"
+				);
+			messageDialog.Title = window.Title; 
+			ResponseType response = (ResponseType)messageDialog.Run ();
+			messageDialog.Destroy ();
+			return response == ResponseType.Yes;
 		}
 	}
 }

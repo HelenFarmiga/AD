@@ -1,6 +1,7 @@
 using System;
 using Gtk;
 using System.Collections;
+
 using System.Data;
 using SerpisAd;
 using PArticulo;
@@ -36,7 +37,7 @@ public partial class MainWindow: Gtk.Window
 	}
 		
 	private void delete (object id){
-		if(ConfirmDelete(this)){
+		if(WindowHelper.ConfirmDelete (this)){
 		Console.WriteLine("Dice que eliminar si");
 		//Creamos un string que contenga comando para borrar
 		IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand();
@@ -46,21 +47,6 @@ public partial class MainWindow: Gtk.Window
 			fillTreeView (); //Actualiza sólo
 		};
 	}
-	
-	public bool ConfirmDelete (Window window){
-		MessageDialog messageDialog = new MessageDialog(
-		window,
-		DialogFlags.DestroyWithParent,
-		MessageType.Question,
-		ButtonsType.YesNo,
-				"Quieres eliminar el elemento seleccionado?"
-					);
-				messageDialog.Title = Title;
-				ResponseType response = (ResponseType)messageDialog.Run ();
-				messageDialog.Destroy ();
-				return response == ResponseType.Yes;				
-	}
-
 
 	private void fillTreeView() {
 		QueryResult queryResult = PersisterHelper.Get ("select * from articulo");
