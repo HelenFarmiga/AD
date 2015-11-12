@@ -42,7 +42,8 @@ public partial class MainWindow: Gtk.Window
 		IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand();
 		string borrar = string.Format("delete from articulo where id={0}", id);
 		dbCommand.CommandText = borrar;
-		dbCommand.ExecuteNonQuery();        
+		dbCommand.ExecuteNonQuery();
+			fillTreeView (); //Actualiza sólo
 		};
 	}
 	
