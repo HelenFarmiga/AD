@@ -10,7 +10,7 @@ namespace PCategoria
 			this.Build ();
 		}
 		QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
-		TreeViewHelper.Fill (treeview1, queryResult);
+		TreeViewHelper.Fill(treeview1, queryResult);
 	}
 	private void borrar() {
 		IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
