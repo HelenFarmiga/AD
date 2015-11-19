@@ -70,8 +70,8 @@ namespace PCategoria
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 400;
-			this.DefaultHeight = 300;
+			this.DefaultWidth = 390;
+			this.DefaultHeight = 505;
 			this.Show ();
 		}
 	}

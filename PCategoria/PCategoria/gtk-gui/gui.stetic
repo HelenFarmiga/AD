@@ -7,7 +7,7 @@
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../../../PSerpisAd/PSerpisAd/bin/Debug/PSerpisAd.dll" />
-    <widget-library name="../bin/Release/PCategoria.exe" internal="true" />
+    <widget-library name="../bin/Debug/PCategoria.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="400 300">
     <action-group name="Default">
@@ -26,6 +26,11 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-delete</property>
       </action>
+      <action id="editAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-edit</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
@@ -43,6 +48,7 @@
               <node type="Toolitem" action="newAction" />
               <node type="Toolitem" action="refreshAction" />
               <node type="Toolitem" action="deleteAction" />
+              <node type="Toolitem" action="editAction" />
             </node>
           </widget>
           <packing>
@@ -75,7 +81,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="PCategoria.CategoriaView" design-size="400 300">
+  <widget class="Gtk.Window" id="PCategoria.CategoriaView" design-size="390 505">
     <action-group name="Default">
       <action id="Guarda">
         <property name="Type">Action</property>

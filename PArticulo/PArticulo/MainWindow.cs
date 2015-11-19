@@ -29,17 +29,26 @@ public partial class MainWindow: Gtk.Window
 			delete(id);
 		};
 
+
+		editAction.Activated += delegate {
+			object id=TreeViewHelper.GetId(treeView);
+			Console.WriteLine("Edicion de la tabla seleccionada");
+			new ArticuloView(id);
+		};
+
 		treeView.Selection.Changed += delegate {
+			Console.WriteLine("ha ocurrido treeView.Selection.Changed");
 			object id = TreeViewHelper.GetId (treeView);
 			deleteAction.Sensitive = TreeViewHelper.IsSelected (treeView);
+			editAction.Sensitive=TreeViewHelper.IsSelected (treeView);
 		};
 			deleteAction.Sensitive = false;
+			editAction.Sensitive = false;
 	}
 		
 	private void delete (object id){
 		if(WindowHelper.ConfirmDelete (this)){
-		Console.WriteLine("Dice que eliminar si");
-		//Creamos un string que contenga comando para borrar
+
 		IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand();
 		string borrar = string.Format("delete from articulo where id={0}", id);
 		dbCommand.CommandText = borrar;

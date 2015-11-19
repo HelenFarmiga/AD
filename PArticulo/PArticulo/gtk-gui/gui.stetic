@@ -9,7 +9,7 @@
     <widget-library name="../../../PSerpisAd/PSerpisAd/bin/Debug/PSerpisAd.dll" />
     <widget-library name="../bin/Debug/PArticulo.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="400 300">
+  <widget class="Gtk.Window" id="MainWindow" design-size="512 250">
     <action-group name="Default">
       <action id="refreshAction">
         <property name="Type">Action</property>
@@ -25,6 +25,11 @@
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-delete</property>
+      </action>
+      <action id="editAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-edit</property>
       </action>
     </action-group>
     <property name="MemberName" />
@@ -43,6 +48,7 @@
               <node type="Toolitem" action="refreshAction" />
               <node type="Toolitem" action="newAction" />
               <node type="Toolitem" action="deleteAction" />
+              <node type="Toolitem" action="editAction" />
             </node>
           </widget>
           <packing>

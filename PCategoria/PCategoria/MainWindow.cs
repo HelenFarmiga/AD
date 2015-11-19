@@ -18,6 +18,7 @@ public partial class MainWindow: Gtk.Window
 		newAction.Activated += delegate {
 			new CategoriaView();
 		};
+
 		refreshAction.Activated += delegate {
 			//Creamos un array que contenga las columnas
 			TreeViewColumn [] columnas = treeview1.Columns;
@@ -33,12 +34,20 @@ public partial class MainWindow: Gtk.Window
 			Console.WriteLine("click ondeleteAction id={0}", id);
 			delete(id);
 		};
+		editAction.Activated += delegate {
+			object id = TreeViewHelper.GetId (treeview1);
+			new CategoriaView(id).Show();
+				fillTreeView();
+			};
 
 		treeview1.Selection.Changed += delegate {
-			object id = TreeViewHelper.GetId (treeview1);
+			
+			bool isSelected = TreeViewHelper.IsSelected(treeview1);
 			deleteAction.Sensitive = TreeViewHelper.IsSelected (treeview1);
-		};
-		deleteAction.Sensitive = false;
+			editAction.Sensitive = TreeViewHelper.IsSelected (treeview1);
+			};
+			deleteAction.Sensitive = false;
+			editAction.Sensitive = false;
 	}
 
 		private void delete (object id){
