@@ -57,7 +57,7 @@ namespace PArticulo
 		//	if (id == null)
 		//		insert ();
 		//	else
-			//			}
+		//			}
 		private void insert(){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
 			dbCommand.CommandText = "insert into articulo (nombre, categoria, precio) " +
@@ -73,7 +73,7 @@ namespace PArticulo
 
 			dbCommand.ExecuteNonQuery ();
 			Destroy ();
-			}
+		}
 		public void update(){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
 			dbCommand.CommandText = "update articulo set nombre=@nombre, categoria=@categoria, precio=@precio where id=@id";
@@ -81,7 +81,7 @@ namespace PArticulo
 			nombre = entryNombre.Text;
 			categoria = ComboBoxHelper.GetId (comboBoxCategoria);
 			precio = Convert.ToDecimal(spinButtonPrecio.Value);
-			
+
 
 			DbCommandHelper.AddParameter (dbCommand, "nombre", nombre);
 			DbCommandHelper.AddParameter (dbCommand, "categoria", categoria);
@@ -89,6 +89,6 @@ namespace PArticulo
 			DbCommandHelper.AddParameter (dbCommand, "id", id);
 			dbCommand.ExecuteNonQuery ();
 			Destroy ();
-			}
 		}
+	}
 }

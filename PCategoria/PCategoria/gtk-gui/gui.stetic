@@ -83,7 +83,7 @@
   </widget>
   <widget class="Gtk.Window" id="PCategoria.CategoriaView" design-size="390 505">
     <action-group name="Default">
-      <action id="Guarda">
+      <action id="Guardar">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-save</property>
@@ -101,7 +101,7 @@
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
             <node name="toolbar1" type="Toolbar">
-              <node type="Toolitem" action="Guarda" />
+              <node type="Toolitem" action="Guardar" />
             </node>
           </widget>
           <packing>

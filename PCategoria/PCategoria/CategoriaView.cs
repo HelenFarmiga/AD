@@ -4,47 +4,73 @@ using System.Collections;
 using System.Data;
 using SerpisAd;
 
-namespace PCategoria
-{
+namespace PCategoria{	
+	public delegate void SaveDelegate();
 	public partial class CategoriaView : Gtk.Window
 	{
-		private object id;
-		public CategoriaView () :
-			base (Gtk.WindowType.Toplevel)
-		{
-			this.Build ();
-			QueryResult queryResult = PersisterHelper.Get ("select * from categoria");
-			Guarda.Activated += delegate {	save();	};
-		}
-		public CategoriaView(object id) : this() {
-			Title = "Borrar Categoria";
-			this.id = id;
-			load ();
+		private object id = null;
+		private string nombre = "";
+		private SaveDelegate save;
+		
+		public CategoriaView () : base(Gtk.WindowType.Toplevel) {
+			init ();
+			save = insert;
 		}
 
-			private void save() {
-				IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
-				dbCommand.CommandText = "insert into categoria (nombre) values (@nombre)";
-				string nombre = entry1.Text;
-				DbCommandHelper.AddParameter (dbCommand, "nombre", nombre);
-				dbCommand.ExecuteNonQuery();
-				Destroy ();
-			}
+		public CategoriaView(object id) : base(Gtk.WindowType.Toplevel) {
+			this.id = id;
+			load ();
+			init ();
+			save = update;
+		}
+		private void init (){
+			this.Build ();
+			entry1.Text = nombre;
+			Guardar.Activated += delegate {	
+				save();	
+			};
+		}
+
 		private void load(){
 			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
 			dbCommand.CommandText = "select * from categoria where id = @id";
 			DbCommandHelper.AddParameter (dbCommand, "id", id);
 			IDataReader dataReader = dbCommand.ExecuteReader ();
 			if (!dataReader.Read ())
-				//TODO throw exception
 				return;
-			string nombre = (string)dataReader ["nombre"];
+			nombre = (string)dataReader ["nombre"];
 			dataReader.Close ();
-			entry1.Text = nombre;
-		}	
+		}
+		
+		private void insert(){
+			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+			dbCommand.CommandText = "insert into categoria (nombre) " +
+				"values (@nombre)";
+			nombre = entry1.Text;
+			DbCommandHelper.AddParameter (dbCommand, "nombre", nombre);
+			dbCommand.ExecuteNonQuery ();
+			Destroy ();
+		}
+		
+		private void update() {
+			IDbCommand dbCommand = App.Instance.DbConnection.CreateCommand ();
+			dbCommand.CommandText = "update categoria set nombre=@nombre where id = @id";
+			nombre = entry1.Text;
+			DbCommandHelper.AddParameter (dbCommand, "nombre", nombre);
+			DbCommandHelper.AddParameter (dbCommand, "id", id);
+			dbCommand.ExecuteNonQuery ();
+			}
 	}
 }
-	
+
+
+
+
+
+		
+
+
+
 
 
 
