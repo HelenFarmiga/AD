@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D2D31511-4BEA-4C21-9E15-7A4B4215B66A}</ProjectGuid>
+    <ProjectGuid>{B654173C-C65C-4F44-BD4B-0F1619E112D3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>PReflection</RootNamespace>
     <AssemblyName>PReflection</AssemblyName>

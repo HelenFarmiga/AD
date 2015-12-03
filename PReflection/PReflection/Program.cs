@@ -45,13 +45,19 @@ namespace SerpisAd
 
 		private static void showObject(object obj) {
 			Type type = obj.GetType ();
+			if (!(obj is Attribute)) {
+				object[] attributes = type.GetCustomAttributes (true);
+				foreach (Attribute attribute in attributes)
+					showObject (attribute);
+			}
 			PropertyInfo[] propertyInfos = type.GetProperties ();
 			foreach (PropertyInfo propertyInfo in propertyInfos) {
+				if (propertyInfo.IsDefined (typeof(IdAttribute), true)) 
+					Console.WriteLine ("{0} decorado con IdAttribute", propertyInfo.Name);
 				Console.WriteLine ("{0}={1}", 
 				                   propertyInfo.Name, propertyInfo.GetValue (obj, null));
 			}
 		}
-
 
 		private static void setValues(object obj, object[] values) {
 			Type type = obj.GetType ();
@@ -60,6 +66,22 @@ namespace SerpisAd
 			foreach (PropertyInfo propertyInfo in propertyInfos) 
 				propertyInfo.SetValue (obj, values [index++], null);
 
+		}
+	}
+
+	public class IdAttribute : Attribute {
+	}
+
+	public class TableAttribute : Attribute {
+		private string name;
+
+		public string Name {
+			get {
+				return name;
+			}
+			set {
+				name = value;
+			}
 		}
 	}
 
@@ -89,6 +111,7 @@ namespace SerpisAd
 
 	}
 
+	[Table(Name = "article")]
 	public class Articulo
 	{
 		public Articulo ()
@@ -100,6 +123,7 @@ namespace SerpisAd
 		private object categoria;
 		private decimal precio;
 
+		[Id]
 		public object Id {
 			get { 
 				return id;
@@ -138,5 +162,6 @@ namespace SerpisAd
 			}
 		}
 	}
+
 
 }
