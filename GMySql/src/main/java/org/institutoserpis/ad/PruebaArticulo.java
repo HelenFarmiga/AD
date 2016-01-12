@@ -1,5 +1,6 @@
 package org.institutoserpis.ad;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
 import java.sql.ResultSetMetaData;
 
 public class PruebaArticulo {
@@ -38,7 +42,7 @@ public class PruebaArticulo {
 					Insert(connection);
 					break;
 				case 3:
-					Update(connection,"Articulo 2", 2);
+					Update(connection);
 					break;
 				case 4:
 					Delete(connection);
@@ -51,16 +55,14 @@ public class PruebaArticulo {
 				}
 	
 			}while(menu !=0);
-			connection.close();
-					
+			connection.close();		
 		}
 
-
 		public static void Filas(Connection connection,Statement statement) throws SQLException {
-			System.out.println("Introduce el id del articulo:");
+			System.out.println("Id del articulo:");
 			int id = tcl.nextInt();
-					
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM articulo WHERE id = " + id);
+		
 			
 			while ( resultSet.next() ) {
 	            String nomArticulo       = resultSet.getString("nombre");
@@ -87,27 +89,29 @@ public class PruebaArticulo {
 			}
 		}
 		public static void Insert(Connection con) throws SQLException {
+			tcl.nextLine();
 			System.out.println("Nombre artículo: ");
-			String name =tcl.nextLine();
-			System.out.println("Precio artículo:");
-			String precio = tcl.nextLine();
+			String nombre =tcl.nextLine();
+		
 			System.out.println("Categoria artículo:");
 			int categoria = tcl.nextInt();
+			tcl.nextLine();
+			System.out.println("Precio artículo:");
+			String precio = tcl.nextLine();
 			
 			
 			
-			String query = "INSERT INTO articulo (nombre, categoria, precio) VALUES ("+ name + "," + categoria + "," + precio + ")";
+			String query = "INSERT INTO articulo (nombre, categoria, precio) VALUES (?,?,?)";
 			
-		    PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-		    preparedStmt.executeUpdate();
+		    PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(query);
+		    pstatement.setString(1,nombre);
+			pstatement.setInt(2,categoria);
+			pstatement.setString(3,precio);
+			pstatement.executeUpdate();
 		}
 		
 	
 	public static void Delete(Connection con) throws SQLException {		
-		    /*PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(
-		    		"DELETE FROM articulo WHERE nombre = ?");
-		    pstatement.setString(1, nombre);
-		    pstatement.executeUpdate();*/
 		System.out.println("Id del articulo:");
 		int id = tcl.nextInt();
 		
@@ -116,18 +120,39 @@ public class PruebaArticulo {
 	    preparedStmt.executeUpdate();
 		}
 	
-	public static void Update(Connection con, String nombre, int id) throws SQLException {
-	    PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(
-	    		"UPDATE articulo SET nombre = ? WHERE id = ?");
-	    pstatement.setString(1, nombre);
-	    pstatement.setInt(2, id);
-	    pstatement.executeUpdate();
+	public static void Update(Connection con)  throws SQLException {
+		System.out.println("Id artículo a actualizar: ");
+		int id = tcl.nextInt();
+		System.out.println("Nombre artículo: ");
+		String name =tcl.nextLine();
+		tcl.nextLine();
+		System.out.println("Precio artículo: ");
+		String precio = tcl.nextLine();
+		
+		System.out.println("Categoria artículo:");
+		int categoria = tcl.nextInt();
+		
 	    
-	}
+		PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(
+	    		"UPDATE articulo" +"SET nombre = ?, categoria = ?, precio =?,WHERE id =?");
+		String mensaje = "Los datos se han Modificado de Manera Satisfactoria";
+		
+		pstatement.setInt(1,id);
+		pstatement.setString(2,name);
+		pstatement.setInt(3,categoria);
+		pstatement.setString(4,precio);
+	   
+
+	    //validar si se guardan los datos.
+	    int i =  pstatement.executeUpdate();
+	    if(i>0){
+	    	JOptionPane.showMessageDialog(null, mensaje);
+		}
+
 
 		
 }
-
+}
 
 
 
