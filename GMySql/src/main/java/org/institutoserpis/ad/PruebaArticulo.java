@@ -1,6 +1,6 @@
 package org.institutoserpis.ad;
 
-import java.math.BigDecimal;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,10 +11,13 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import java.sql.ResultSetMetaData;
+
 
 public class PruebaArticulo {
 	private static Scanner tcl = new Scanner(System.in);
+	private static void showException(Exception ex){
+		System.out.println(ex.getLocalizedMessage());
+	}
 	public static void main(String[] args) throws SQLException{ 
 			
 			Connection connection = DriverManager.getConnection( "jdbc:mysql://localhost/dbprueba", "root", "sistemas" );
@@ -30,6 +33,7 @@ public class PruebaArticulo {
 			System.out.println("5.- Mostrar todos los datos");
 			
 			do{
+				System.out.println("Introduce la opción que deseas");
 				menu= tcl.nextInt();
 				switch(menu){
 				case 0:
@@ -65,15 +69,15 @@ public class PruebaArticulo {
 		
 			
 			while ( resultSet.next() ) {
-	            String nomArticulo       = resultSet.getString("nombre");
-	            String idArticulo        = resultSet.getString("id");
-	            String categoriaArticulo = resultSet.getString("categoria");
-	            String precioArticulo    = resultSet.getString("precio");
+	            String nombrearticulo      = resultSet.getString("nombre");
+	            String idarticulo        = resultSet.getString("id");
+	            String categoriaarticulo = resultSet.getString("categoria");
+	            String precioarticulo    = resultSet.getString("precio");
 	            
-	            System.out.println( "Nombre: "     + nomArticulo       +
-	            					" Id: "        + idArticulo        + 
-	            					" Categoria: " + categoriaArticulo +
-	            					" Precio: "    + precioArticulo);
+	            System.out.println( "Nombre: "+ nombrearticulo       +
+	            					" Id: "        + idarticulo        + 
+	            					" Categoria: " + categoriaarticulo +
+	            					" Precio: "    + precioarticulo);
 	            
 			}
 		}
@@ -93,7 +97,7 @@ public class PruebaArticulo {
 			
 			String query = "INSERT INTO articulo (nombre, categoria, precio) VALUES (?,?,?)";
 			String mensaje = "Los datos se han Modificado de Manera Satisfactoria";
-			
+			try{
 		    PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(query);
 		    pstatement.setString(1,nombre);
 			pstatement.setInt(2,categoria);
@@ -105,22 +109,27 @@ public class PruebaArticulo {
 		   if(i>0){
 		    JOptionPane.showMessageDialog(null, mensaje);
 			}
+			
+			   
+		} catch(SQLException ex){
+			showException(ex);
 		}
-
+		}
+			
 		public static void ShowAllF(Connection connection, Statement statement) throws SQLException {
 			
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM articulo");
 			
 			while ( resultSet.next() ) {
-	            String nomArticulo       = resultSet.getString("nombre");
-	            String idArticulo        = resultSet.getString("id");
-	            String categoriaArticulo = resultSet.getString("categoria");
-	            String precioArticulo    = resultSet.getString("precio");
+				String nombrearticulo      = resultSet.getString("nombre");
+	            String idarticulo        = resultSet.getString("id");
+	            String categoriaarticulo = resultSet.getString("categoria");
+	            String precioarticulo    = resultSet.getString("precio");
 	            
-	            System.out.println( "Nombre: "     + nomArticulo       +
-	            					" Id: "        + idArticulo        + 
-	            					" Categoria: " + categoriaArticulo +
-	            					" Precio: "    + precioArticulo);
+	            System.out.println( "Nombre: "+ nombrearticulo       +
+	           " Id: "        + idarticulo        + 
+	            					" Categoria: " + categoriaarticulo +
+	            					" Precio: "    + precioarticulo);
 			}
 		}
 		
@@ -139,10 +148,10 @@ public class PruebaArticulo {
 		System.out.println("Id artículo a actualizar: ");
 		tcl.nextLine();
 		int id = tcl.nextInt();
-	
+		tcl.nextLine();
 		System.out.println("Nombre artículo: ");
 		String name =tcl.nextLine();
-		tcl.nextLine();
+	
 		
 		System.out.println("Categoria artículo:");
 		int categoria = tcl.nextInt();
@@ -154,7 +163,7 @@ public class PruebaArticulo {
 	    		"UPDATE articulo SET nombre = ?, categoria = ?, precio =? WHERE id =?");
 		String mensaje = "Los datos se han Modificado de Manera Satisfactoria";
 		
-		
+		try{
 		pstatement.setString(1,name);
 		pstatement.setInt(2,categoria);
 		pstatement.setString(3,precio);
@@ -164,11 +173,13 @@ public class PruebaArticulo {
 	    if(i>0){
 	    	JOptionPane.showMessageDialog(null, mensaje);
 		}
-
-
-		
+	   
+		} catch(SQLException ex){
+			showException(ex);
 }
-}
+	}
+		}
+
 
 
 
