@@ -48,7 +48,7 @@ public class PruebaArticulo {
 					Delete(connection);
 					break;
 				case 5:
-					ShowColumns(connection, statment);
+					ShowAllF(connection, statment);
 					break;
 				default:
 					System.out.println("Error. Opción erronea");
@@ -59,7 +59,7 @@ public class PruebaArticulo {
 		}
 
 		public static void Filas(Connection connection,Statement statement) throws SQLException {
-			System.out.println("Id del articulo:");
+			System.out.println("Id del articulo a mostrar:");
 			int id = tcl.nextInt();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM articulo WHERE id = " + id);
 		
@@ -77,17 +77,6 @@ public class PruebaArticulo {
 	            
 			}
 		}
-
-		public static void ShowColumns(Connection connection, Statement statement) throws SQLException {
-			ResultSet resultSet = statement.executeQuery("SELECT nombre, id, categoria, precio FROM articulo");
-			ResultSetMetaData resultSetMetaData = (ResultSetMetaData) resultSet.getMetaData();
-			int numColumnas = resultSetMetaData.getColumnCount();
-
-			for (int i=1; i <= numColumnas; i++ ) {
-				String nombreColumna = resultSetMetaData.getColumnName(i);
-				System.out.println(nombreColumna);
-			}
-		}
 		public static void Insert(Connection con) throws SQLException {
 			tcl.nextLine();
 			System.out.println("Nombre artículo: ");
@@ -96,54 +85,81 @@ public class PruebaArticulo {
 			System.out.println("Categoria artículo:");
 			int categoria = tcl.nextInt();
 			tcl.nextLine();
+			
 			System.out.println("Precio artículo:");
 			String precio = tcl.nextLine();
 			
 			
 			
 			String query = "INSERT INTO articulo (nombre, categoria, precio) VALUES (?,?,?)";
+			String mensaje = "Los datos se han Modificado de Manera Satisfactoria";
 			
 		    PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(query);
 		    pstatement.setString(1,nombre);
 			pstatement.setInt(2,categoria);
 			pstatement.setString(3,precio);
-			pstatement.executeUpdate();
+	
+		   
+
+		  int i =  pstatement.executeUpdate();
+		   if(i>0){
+		    JOptionPane.showMessageDialog(null, mensaje);
+			}
+		}
+
+		public static void ShowAllF(Connection connection, Statement statement) throws SQLException {
+			
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM articulo");
+			
+			while ( resultSet.next() ) {
+	            String nomArticulo       = resultSet.getString("nombre");
+	            String idArticulo        = resultSet.getString("id");
+	            String categoriaArticulo = resultSet.getString("categoria");
+	            String precioArticulo    = resultSet.getString("precio");
+	            
+	            System.out.println( "Nombre: "     + nomArticulo       +
+	            					" Id: "        + idArticulo        + 
+	            					" Categoria: " + categoriaArticulo +
+	            					" Precio: "    + precioArticulo);
+			}
 		}
 		
+		
 	
-	public static void Delete(Connection con) throws SQLException {		
+	public static void Delete(Connection connection) throws SQLException {		
 		System.out.println("Id del articulo:");
 		int id = tcl.nextInt();
 		
 		String query = "DELETE FROM articulo WHERE id = " + id;
-	    PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
-	    preparedStmt.executeUpdate();
+	    PreparedStatement pstatement = (PreparedStatement) connection.prepareStatement(query);
+	    pstatement.executeUpdate();
 		}
 	
-	public static void Update(Connection con)  throws SQLException {
+	public static void Update(Connection connection)  throws SQLException {
 		System.out.println("Id artículo a actualizar: ");
+		tcl.nextLine();
 		int id = tcl.nextInt();
+	
 		System.out.println("Nombre artículo: ");
 		String name =tcl.nextLine();
 		tcl.nextLine();
-		System.out.println("Precio artículo: ");
-		String precio = tcl.nextLine();
 		
 		System.out.println("Categoria artículo:");
 		int categoria = tcl.nextInt();
-		
+		tcl.nextLine();
+		System.out.println("Precio artículo: ");
+		String precio = tcl.nextLine();
 	    
-		PreparedStatement pstatement = (PreparedStatement) con.prepareStatement(
-	    		"UPDATE articulo" +"SET nombre = ?, categoria = ?, precio =?,WHERE id =?");
+		PreparedStatement pstatement = (PreparedStatement) connection.prepareStatement(
+	    		"UPDATE articulo SET nombre = ?, categoria = ?, precio =? WHERE id =?");
 		String mensaje = "Los datos se han Modificado de Manera Satisfactoria";
 		
-		pstatement.setInt(1,id);
-		pstatement.setString(2,name);
-		pstatement.setInt(3,categoria);
-		pstatement.setString(4,precio);
+		
+		pstatement.setString(1,name);
+		pstatement.setInt(2,categoria);
+		pstatement.setString(3,precio);
+		pstatement.setInt(4,id);
 	   
-
-	    //validar si se guardan los datos.
 	    int i =  pstatement.executeUpdate();
 	    if(i>0){
 	    	JOptionPane.showMessageDialog(null, mensaje);
