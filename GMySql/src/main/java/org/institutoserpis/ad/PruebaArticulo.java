@@ -9,19 +9,15 @@ import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.ResultSetMetaData;
 
-
 public class PruebaArticulo {
-		
+	private static Scanner tcl = new Scanner(System.in);
 	public static void main(String[] args) throws SQLException{ 
+			
 			Connection connection = DriverManager.getConnection( "jdbc:mysql://localhost/dbprueba", "root", "sistemas" );
 			Statement statment = (Statement) connection.createStatement();
+	
 			
-
-			connection.close();
-			
-			
-			Scanner tcl = new Scanner(System.in);
-			int menu=0;
+			int menu=-1;
 			System.out.println("0.- Salir");
 			System.out.println("1.- Leer");
 			System.out.println("2.- Nuevo");
@@ -36,7 +32,7 @@ public class PruebaArticulo {
 				System.out.println("¡Adios!");
 				break;
 				case 1:
-					Filas(connection);
+					Filas(connection, statment);
 					break;
 				case 2:
 					Insert(connection);
@@ -50,6 +46,8 @@ public class PruebaArticulo {
 				case 5:
 					ShowColumns(connection, statment);
 					break;
+				default:
+					System.out.println("Error. Opción erronea");
 				}
 	
 			}while(menu !=0);
@@ -58,20 +56,23 @@ public class PruebaArticulo {
 		}
 
 
-		public static void Filas(Connection connection) throws SQLException {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM articulo");
+		public static void Filas(Connection connection,Statement statement) throws SQLException {
+			System.out.println("Introduce el id del articulo:");
+			int id = tcl.nextInt();
+					
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM articulo WHERE id = " + id);
 			
-			while (resultSet.next() ) {
-	            String Name      = resultSet.getString("nombre");
-	            String id_a        = resultSet.getString("id");
-	            String categoria = resultSet.getString("categoria");
-	            String precio_a    = resultSet.getString("precio");
+			while ( resultSet.next() ) {
+	            String nomArticulo       = resultSet.getString("nombre");
+	            String idArticulo        = resultSet.getString("id");
+	            String categoriaArticulo = resultSet.getString("categoria");
+	            String precioArticulo    = resultSet.getString("precio");
 	            
-	            System.out.println( " Nombre: "    + Name      +
-	            					" id: "        + id_a        + 
-	            					" Categoria: " + categoria +
-	            					" Precio: "    + precio_a);
+	            System.out.println( "Nombre: "     + nomArticulo       +
+	            					" Id: "        + idArticulo        + 
+	            					" Categoria: " + categoriaArticulo +
+	            					" Precio: "    + precioArticulo);
+	            
 			}
 		}
 
@@ -86,7 +87,6 @@ public class PruebaArticulo {
 			}
 		}
 		public static void Insert(Connection con) throws SQLException {
-			Scanner tcl = new Scanner(System.in);
 			System.out.println("Nombre artículo: ");
 			String name =tcl.nextLine();
 			System.out.println("Precio artículo:");
@@ -96,7 +96,7 @@ public class PruebaArticulo {
 			
 			
 			
-			String query = "INSERT INTO articulo (nombre, categoria, precio) VALUES ("+ nombre + "," + categoria + "," + precio + ")";
+			String query = "INSERT INTO articulo (nombre, categoria, precio) VALUES ("+ name + "," + categoria + "," + precio + ")";
 			
 		    PreparedStatement preparedStmt = (PreparedStatement) con.prepareStatement(query);
 		    preparedStmt.executeUpdate();
@@ -108,7 +108,6 @@ public class PruebaArticulo {
 		    		"DELETE FROM articulo WHERE nombre = ?");
 		    pstatement.setString(1, nombre);
 		    pstatement.executeUpdate();*/
-		Scanner tcl = new Scanner(System.in);
 		System.out.println("Id del articulo:");
 		int id = tcl.nextInt();
 		
@@ -127,7 +126,8 @@ public class PruebaArticulo {
 	}
 
 		
-	}
-				 
-				 		 
-	
+}
+
+
+
+
