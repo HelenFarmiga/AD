@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Articulo {
 	private Long id;
 	private String nombre;
-	private Long categoria;
+	private Categoria categoria;
 	private BigDecimal precio;
 	
 	@Id
@@ -30,10 +30,13 @@ public class Articulo {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Long getCategoria() {
+	
+
+	
+	public Categoria getCategoria() {
 		return categoria;
 	}
-	public void setCategoria(Long categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 	public BigDecimal getPrecio() {
