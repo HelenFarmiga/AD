@@ -10,10 +10,15 @@ create table categoria (
  nombre varchar (50) not null unique
 );
 
+create table cliente(
+id bigint auto_increment primary key,
+ nombre varchar (50) not null unique
+);
+
 create table pedido (
  id bigint auto_increment primary key,
  cliente bigint not null,
- fecha datatime not null,
+ fecha datetime not null,
  importe decimal (10,2)
 );
 
@@ -28,5 +33,5 @@ create table pedidolinea (
 
 alter table articulo add foreign key (categoria) references categoria (id);
 alter pedido add foreign key (cliente) references cliente (id);
-alter table pedidolinea add foreign key (pedido) referemces pedido (id) on delete cascade;
+alter table pedidolinea add foreign key (pedido) references pedido (id) on delete cascade;
 alter table pedidolinea add foreign key (articulo) references articulo (id);
