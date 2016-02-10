@@ -15,7 +15,7 @@ public class PruebaPedido {
 		System.out.println("inicio");
 		entityManagerFactory = 
 				Persistence.createEntityManagerFactory("org.institutoserpis.ad");
-
+		query();
 		entityManagerFactory.close();
 		System.out.println("fin");
 	}

@@ -54,7 +54,7 @@ public class Pedido {
 	}
 	*/
 	public String toString(){
-		return String.format("%s %-20s %s %s", id,cliente,fecha,importe);
+		return String.format("%s %-20s %s ", id,cliente,fecha);
 	}
 	
 	
