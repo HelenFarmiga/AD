@@ -1,5 +1,6 @@
 package org.institutoserpis.ad;
 
+
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
@@ -32,7 +33,6 @@ public class Articulo {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
 	@ManyToOne
 	@JoinColumn(name="categoria")
 	public Categoria getCategoria() {
@@ -47,7 +47,10 @@ public class Articulo {
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
 	}
-	public String toString(){
-		return String.format("%s %-20s %s %s", id,nombre,categoria,precio);
+	
+	@Override
+	public String toString() {
+		return String.format("%s %-20s %s %s", id, nombre, categoria, precio);
 	}
+
 }
